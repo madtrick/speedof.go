@@ -1,0 +1,14 @@
+hash: a0efd22aa86846a0526f8ab7fc2e6543a3fc8710d8fa71aca6131cc5783d9e7d
+updated: 2017-02-04T17:39:01.560915882+01:00
+imports:
+- name: github.com/dghubble/go-twitter
+  version: 8a37d370f7ab4551ee30109ebbef470a3271d33b
+  subpackages:
+  - twitter
+- name: github.com/dghubble/oauth1
+  version: 70562a5920ad9b6ff03ef697c0f90ae569abbd2b
+- name: golang.org/x/net
+  version: 41bba8d80bbfab43231ffdf4c210037baae5f6a3
+  subpackages:
+  - context
+testImports: []
