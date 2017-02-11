@@ -1,14 +1,24 @@
 hash: a0efd22aa86846a0526f8ab7fc2e6543a3fc8710d8fa71aca6131cc5783d9e7d
-updated: 2017-02-04T17:39:01.560915882+01:00
+updated: 2017-02-11T11:41:56.665988049+01:00
 imports:
+- name: github.com/cenkalti/backoff
+  version: b02f2bbce11d7ea6b97f282ef1771b0fe2f65ef3
 - name: github.com/dghubble/go-twitter
   version: 8a37d370f7ab4551ee30109ebbef470a3271d33b
   subpackages:
   - twitter
 - name: github.com/dghubble/oauth1
   version: 70562a5920ad9b6ff03ef697c0f90ae569abbd2b
+  subpackages:
+  - twitter
+- name: github.com/dghubble/sling
+  version: eb56e89ac5088bebb12eef3cb4b293300f43608b
+- name: github.com/google/go-querystring
+  version: 53e6ce116135b80d037921a7fdd5138cf32d7a8a
+  subpackages:
+  - query
 - name: golang.org/x/net
-  version: 41bba8d80bbfab43231ffdf4c210037baae5f6a3
+  version: 61557ac0112b576429a0df080e1c2cef5dfbb642
   subpackages:
   - context
 testImports: []
