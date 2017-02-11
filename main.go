@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"syscall"
+	"time"
 
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
@@ -18,6 +19,14 @@ import (
 type Configuration struct {
 	Token       string
 	TokenSecret string
+}
+
+func meter(count *int) {
+	for {
+		fmt.Println(*count)
+		*count = 0
+		time.Sleep(1 * time.Second)
+	}
 }
 
 func main() {
@@ -91,10 +100,18 @@ func main() {
 			StallWarnings: twitter.Bool(true),
 		}
 
-		stream, _ := client.Streams.Filter(params)
+		count := 0
 
-		for m := range stream.Messages {
-			fmt.Println(m)
+		go meter(&count)
+
+		stream, err := client.Streams.Filter(params)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		for range stream.Messages {
+			count = count + 1
 		}
 
 	}
