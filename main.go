@@ -21,9 +21,9 @@ type Configuration struct {
 	TokenSecret string
 }
 
-func meter(count *int) {
+func meter(track string, count *int) {
 	for {
-		fmt.Println(*count)
+		fmt.Printf("\r %d %ss/s", *count, track)
 		*count = 0
 		time.Sleep(1 * time.Second)
 	}
@@ -115,7 +115,7 @@ func main() {
 
 		count := 0
 
-		go meter(&count)
+		go meter(TRACK, &count)
 
 		stream, err := client.Streams.Filter(params)
 
