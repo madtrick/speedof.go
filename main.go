@@ -67,7 +67,6 @@ func getToken(consumerKey, consumerSecret string) *Configuration {
 }
 
 func main() {
-	_, err := os.Open("./config.json")
 
 	CONSUMER_KEY := os.Getenv("CONSUMER_KEY")
 	CONSUMER_SECRET := os.Getenv("CONSUMER_SECRET")
@@ -79,6 +78,8 @@ func main() {
 	if CONSUMER_SECRET == "" {
 		log.Fatal("Empty CONSUMER_SECRET env variable")
 	}
+
+	_, err := os.Open("./config.json")
 
 	if err != nil {
 		if e, ok := err.(*os.PathError); ok && e.Err == syscall.ENOENT {
