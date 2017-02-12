@@ -70,6 +70,7 @@ func main() {
 
 	CONSUMER_KEY := os.Getenv("CONSUMER_KEY")
 	CONSUMER_SECRET := os.Getenv("CONSUMER_SECRET")
+	TRACK := os.Getenv("TRACK")
 
 	if CONSUMER_KEY == "" {
 		log.Fatal("Empty CONSUMER_KEY env variable")
@@ -77,6 +78,10 @@ func main() {
 
 	if CONSUMER_SECRET == "" {
 		log.Fatal("Empty CONSUMER_SECRET env variable")
+	}
+
+	if TRACK == "" {
+		log.Fatal("Empty TRACK env variable")
 	}
 
 	_, err := os.Open("./config.json")
@@ -104,7 +109,7 @@ func main() {
 		client := twitter.NewClient(httpClient)
 
 		params := &twitter.StreamFilterParams{
-			Track:         []string{"fuck"},
+			Track:         []string{TRACK},
 			StallWarnings: twitter.Bool(true),
 		}
 
