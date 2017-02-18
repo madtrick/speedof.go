@@ -16,6 +16,32 @@ import (
 	twitterOauth1 "github.com/dghubble/oauth1/twitter"
 )
 
+func initStream(tokens *Configuration, consumerKey, consumerSecret, track string) {
+	config := oauth1.NewConfig(consumerKey, consumerSecret)
+	token := oauth1.NewToken(tokens.Token, tokens.TokenSecret)
+	httpClient := config.Client(context.TODO(), token)
+	client := twitter.NewClient(httpClient)
+
+	params := &twitter.StreamFilterParams{
+		Track:         []string{track},
+		StallWarnings: twitter.Bool(true),
+	}
+
+	count := 0
+
+	go meter(track, &count)
+
+	stream, err := client.Streams.Filter(params)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for range stream.Messages {
+		count = count + 1
+	}
+}
+
 type Configuration struct {
 	Token       string
 	TokenSecret string
@@ -94,7 +120,7 @@ func main() {
 			data, _ := json.Marshal(configuration)
 			ioutil.WriteFile("config.json", data, 0600)
 
-			fmt.Println("vim-go")
+			initStream(configuration, CONSUMER_KEY, CONSUMER_SECRET, TRACK)
 		} else {
 			log.Fatal(err)
 		}
@@ -103,29 +129,6 @@ func main() {
 		tokens := &Configuration{}
 		json.Unmarshal(data, tokens)
 
-		config := oauth1.NewConfig(CONSUMER_KEY, CONSUMER_SECRET)
-		token := oauth1.NewToken(tokens.Token, tokens.TokenSecret)
-		httpClient := config.Client(context.TODO(), token)
-		client := twitter.NewClient(httpClient)
-
-		params := &twitter.StreamFilterParams{
-			Track:         []string{TRACK},
-			StallWarnings: twitter.Bool(true),
-		}
-
-		count := 0
-
-		go meter(TRACK, &count)
-
-		stream, err := client.Streams.Filter(params)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		for range stream.Messages {
-			count = count + 1
-		}
-
+		initStream(tokens, CONSUMER_KEY, CONSUMER_SECRET, TRACK)
 	}
 }
